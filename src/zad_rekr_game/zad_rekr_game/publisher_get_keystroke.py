@@ -28,7 +28,8 @@ class KeyStrokePublisher(Node):
     def __init__(self):
         super().__init__('keystroke_publisher')
         self.publisher_ = self.create_publisher(String, 'directions', 10)
-        self.listen_keystroke()
+        timer_period = 0.1
+        self.timer = self.create_timer(timer_period, self.listen_keystroke)
         
     def listen_keystroke(self):
         """Records Keystroke given from the commandline
@@ -37,8 +38,8 @@ class KeyStrokePublisher(Node):
         print('move -> WASD')
         msg.data = getch.getch()
         self.publisher_.publish(msg)
-        self.get_logger().info('Sending Stroke: "%s"' % msg.data)
-        os.system('cls' if os.name == 'nt' else 'clear')
+        # self.get_logger().info('Sending Stroke: "%s"' % msg.data)
+        # os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
